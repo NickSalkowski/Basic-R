@@ -7,7 +7,7 @@ output: ioslides_presentation
   
 ## The Introduction
   
-  ```{r setup, echo = FALSE}
+```{r setup, echo = FALSE}
 knitr::opts_knit$set(tidy = FALSE)
 ```
 
@@ -32,11 +32,11 @@ There are a lot of sources of information about R.  An excellent, and useful pla
 ## Functions
 
 Functions are usually called using a function name followed by parentheses.  For example, the `c()` function combines values into a vector:
-  ```{r c}
+```{r c}
 c(1, 2, 3, 4)
 ```
 The `mean()` function calculates the mean:
-  ```{r mean}
+```{r mean}
 mean(c(1, 2, 3, 4))
 ```
 
@@ -178,7 +178,7 @@ c(P - (Q / 3), (Q / P) - 3)
 ## Vectors
 
 R vectors come in a variety of types.  Here are some common types:
-  ```{r vectors}
+```{r vectors}
 c("A", "B", "C") # character
 c(0.1, 0.2, 0.3) # numeric
 c(1L, 2L, 3L) # integer
@@ -265,7 +265,7 @@ c(c(1L, 2L),      # integer
 
 Really, Vector Arithmetic with Vectors with length 1!
   
-  ```{r vectormath}
+```{r vectormath}
 X <- c(1, 2, 3, 4, 5)
 X + 10
 X * 2
