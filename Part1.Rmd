@@ -1,0 +1,305 @@
+---
+title: "Basic R: Part 1"
+author: "Nick Salkowski"
+date: "Wednesday, February 25, 2015"
+output: ioslides_presentation
+---
+  
+## The Introduction
+  
+  ```{r setup, echo = FALSE}
+knitr::opts_knit$set(tidy = FALSE)
+```
+
+There are a lot of sources of information about R.  An excellent, and useful place to start is *An Introduction to R* 
+  
+  (<http://cran.r-project.org/doc/manuals/R-intro.pdf>)
+
+## Case Sensitivity
+
+- R is case sensitive.
+
+* So, `X` and `x` are not the same.
+* Get used to it.
+
+## Objects
+
+- R is object oriented.
+- So, you will work with different kinds of objects, not just data tables.
+- The most common objects are different kinds of vectors, matrices, arrays, lists, data.frames, and functions.
+- Note that there are no scalars, only vectors of length 1.
+
+## Functions
+
+Functions are usually called using a function name followed by parentheses.  For example, the `c()` function combines values into a vector:
+  ```{r c}
+c(1, 2, 3, 4)
+```
+The `mean()` function calculates the mean:
+  ```{r mean}
+mean(c(1, 2, 3, 4))
+```
+
+## More Functions
+
+R is full of functions.  Some things that don't *look* like functions are really functions, like `+()`:
+```{r functions2}
+5 + 3
+`+`(2, 9)
+```
+
+## Arithmetic
+
+- `+` Addition
+- `-` Subtraction
+- `*` Multiplication
+- `/` Division
+- `^` Exponentiation
+- `%/%` & `%%` Integer Division & Remainder
+
+## Arithmetic (continued)
+```{r}
+13 + 2
+13 - 2
+13 * 2
+13 / 2
+```
+
+## Arithmetic (continued)
+```{r}
+13 ^ 2
+13 %/% 2
+13 %% 2
+```
+
+## Relational Operators
+
+- `<` Less Than
+- `>` Greater Than
+- `<=` Less Than or Equal To
+- `>=` Greater Than or Equal To
+- `==` Equal To
+- `!=` Not Equal To
+
+## Relational Operators (continued)
+```{r}
+13 < 2
+13 > 2
+13 == 2
+13 != 2
+```
+
+## Membership
+
+`%in%` is used to test for membership.
+
+```{r}
+"A" %in% c("A", "B", "C")
+c("A", "D") %in% c("A", "B", "C")
+16 %in% c(1, 4, 9)
+```
+
+## Logical Operators
+
+- `!` Not
+- `&` And
+- `|` Or
+
+```{r}
+5 > 2 & 10 < 3
+5 > 2 | !(10 > 3)
+```
+
+## any() and all()
+- `any()` tests whether there are any `TRUE` values
+- `all()` tests whether all the values are `TRUE`
+```{r}
+any(c(TRUE, TRUE, FALSE))
+all(c(TRUE, TRUE, FALSE))
+
+```
+
+## NA and NULL
+
+- `NA` means "missing"
+- `NULL` means "nothing"
+- Use `is.na()` to test whether a value is missing
+- Use `is.null()` to test whether a value is nonexistant
+
+## NA and NULL (continued)
+```{r}
+c(TRUE | NA, FALSE | NA)
+c(all(c(TRUE, NA)), all(c(TRUE, NULL)))
+is.na(c("A", NA))
+is.null(c("A", NULL))
+```
+
+
+## Assignment Operators
+
+To assign a name to an object, use an assignment operator:
+
+```{r assignment}
+X <- 5
+X
+X * 2 -> Y
+Y
+```
+
+## More Assignment Operators
+
+- `=` can be used instead of `<-`, but it isn't recommended!
+  - `<<-` and `->>` should be avoided until you understand *environments*.
+- `assign()` can be useful within functions or loops.
+```{r assign}
+assign(x = "ABCDE", 
+       value = c("A", "B", "C", "D", "E"))
+ABCDE
+```
+
+## Assignment is a function, too
+
+```{r assignfunc}
+`<-`(XYZ, c("X", "Y", "Z"))
+XYZ
+```
+
+## Floating Point Math
+
+R is not immune from floating point math issues...
+
+```{r}
+P <- 0.1
+Q <- 0.3
+c(P == (Q / 3), (Q / P) == 3) # HUH?
+c(P - (Q / 3), (Q / P) - 3)
+```
+
+## Vectors
+
+R vectors come in a variety of types.  Here are some common types:
+  ```{r vectors}
+c("A", "B", "C") # character
+c(0.1, 0.2, 0.3) # numeric
+c(1L, 2L, 3L) # integer
+```
+
+## More Vectors
+
+```{r morevectors}
+c(TRUE, FALSE, TRUE) # logical
+factor(c("A", "B", "C")) # factor
+complex(
+  real = c(1.1, 2.2, -3.3), 
+  imaginary = c(0, -1, 4)) # complex
+```
+
+`raw` vectors also exist, but are rarely used.
+
+## TRUE and FALSE
+
+- When you start using R, there are two objects, `T` and `F`, which have values `TRUE` and `FALSE`, respectively.
+- So, you may be tempted to just use `T` and `F` instead of `TRUE` and `FALSE` -- **DO NOT DO THIS!**
+  - The values of `T` and `F` may be replaced ...
+```{r}
+c(T, F)
+T <- FALSE
+F <- TRUE
+```
+
+## TRUE and FALSE (continued)
+```{r}
+T == FALSE
+F == TRUE
+```
+
+
+## Coercion
+
+Usually R knows what to do with two objects of the same type, but if you have two objects of different types, then R will usually try to *coerce* the objects to allow your function to work.  Consider the `c()` function.
+
+```{r}
+c(c("A", "B"), # character
+  c(1.0, 0.2)) # numeric
+c(c("A", "B"), # character
+  c(1L, 2L))   # integer
+```
+
+## Coercion (continued)
+
+```{r}
+c(c("A", "B"),    # character
+  c(TRUE, FALSE)) # logical
+c(c("A", "B"),         # character
+  factor(c("a", "b"))) # factor
+```
+
+## factors
+
+factors are *strange* objects, and cause all sorts of trouble if you don't know what you're doing.
+
+- factors *look* like character vectors, but deep down they're really *integer* vectors, with an *attribute* called `levels` that maps the integers to character strings.
+- So, factor vectors behave *really differently* than character vectors.
+- Also, R has a habit of converting character vectors into factor vectors by default, so factors can be easily generated if you don't pay attention.
+
+## Coercion (continued)
+
+```{r}
+c(c(0.1, 0.2),    # numeric
+  c(1L, 2L))      # integer
+c(c(0.1, 0.2),    # numeric
+  c(TRUE, FALSE)) # logical
+c(c(1L, 2L),      # integer
+  c(TRUE, FALSE)) # logical
+```
+
+## Coercion (continued)
+
+```{r}
+"1" == 1.0
+"1" == 1L
+1.0 == 1L
+```
+
+## Vector Arithmetic with Scalars
+
+Really, Vector Arithmetic with Vectors with length 1!
+  
+  ```{r vectormath}
+X <- c(1, 2, 3, 4, 5)
+X + 10
+X * 2
+1 / X
+```
+
+## Vector Arithmetic with Vectors
+```{r vectormath2}
+Y <- c(1, -2, 3, -4, 5)
+X + Y
+X * Y
+X %*% Y
+```
+
+
+## Outer Products
+
+```{r outer}
+outer(X, Y)
+```
+
+## More Outer Products
+```{r outer2}
+outer(X, Y, "+")
+```
+
+## Getting Help
+
+There are lots of ways to access help:
+  
+  - `?sample`
+- `help(sample)`
+
+You can also search the help for a particular string:
+  
+  - `help.search("sample")`
+- `??sample`
