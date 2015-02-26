@@ -149,7 +149,7 @@ Y
 ## More Assignment Operators
 
 - `=` can be used instead of `<-`, but it isn't recommended!
-  - `<<-` and `->>` should be avoided until you understand *environments*.
+- `<<-` and `->>` should be avoided until you understand *environments*.
 - `assign()` can be useful within functions or loops.
 ```{r assign}
 assign(x = "ABCDE", 
@@ -200,7 +200,7 @@ complex(
 
 - When you start using R, there are two objects, `T` and `F`, which have values `TRUE` and `FALSE`, respectively.
 - So, you may be tempted to just use `T` and `F` instead of `TRUE` and `FALSE` -- **DO NOT DO THIS!**
-  - The values of `T` and `F` may be replaced ...
+- The values of `T` and `F` may be replaced ...
 ```{r}
 c(T, F)
 T <- FALSE
@@ -296,10 +296,10 @@ outer(X, Y, "+")
 
 There are lots of ways to access help:
   
-  - `?sample`
+- `?sample`
 - `help(sample)`
 
 You can also search the help for a particular string:
   
-  - `help.search("sample")`
+- `help.search("sample")`
 - `??sample`
