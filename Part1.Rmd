@@ -13,7 +13,7 @@ knitr::opts_knit$set(tidy = FALSE)
 
 There are a lot of sources of information about R.  An excellent, and useful place to start is *An Introduction to R* 
   
-  (<http://cran.r-project.org/doc/manuals/R-intro.pdf>)
+(<http://cran.r-project.org/doc/manuals/R-intro.pdf>)
 
 ## Case Sensitivity
 
@@ -32,10 +32,13 @@ There are a lot of sources of information about R.  An excellent, and useful pla
 ## Functions
 
 Functions are usually called using a function name followed by parentheses.  For example, the `c()` function combines values into a vector:
+
 ```{r c}
 c(1, 2, 3, 4)
 ```
+
 The `mean()` function calculates the mean:
+
 ```{r mean}
 mean(c(1, 2, 3, 4))
 ```
@@ -43,6 +46,7 @@ mean(c(1, 2, 3, 4))
 ## More Functions
 
 R is full of functions.  Some things that don't *look* like functions are really functions, like `+()`:
+
 ```{r functions2}
 5 + 3
 `+`(2, 9)
@@ -58,6 +62,7 @@ R is full of functions.  Some things that don't *look* like functions are really
 - `%/%` & `%%` Integer Division & Remainder
 
 ## Arithmetic (continued)
+
 ```{r}
 13 + 2
 13 - 2
@@ -66,6 +71,7 @@ R is full of functions.  Some things that don't *look* like functions are really
 ```
 
 ## Arithmetic (continued)
+
 ```{r}
 13 ^ 2
 13 %/% 2
@@ -82,6 +88,7 @@ R is full of functions.  Some things that don't *look* like functions are really
 - `!=` Not Equal To
 
 ## Relational Operators (continued)
+
 ```{r}
 13 < 2
 13 > 2
@@ -111,8 +118,10 @@ c("A", "D") %in% c("A", "B", "C")
 ```
 
 ## any() and all()
+
 - `any()` tests whether there are any `TRUE` values
 - `all()` tests whether all the values are `TRUE`
+
 ```{r}
 any(c(TRUE, TRUE, FALSE))
 all(c(TRUE, TRUE, FALSE))
@@ -127,13 +136,13 @@ all(c(TRUE, TRUE, FALSE))
 - Use `is.null()` to test whether a value is nonexistant
 
 ## NA and NULL (continued)
+
 ```{r}
 c(TRUE | NA, FALSE | NA)
 c(all(c(TRUE, NA)), all(c(TRUE, NULL)))
 is.na(c("A", NA))
 is.null(c("A", NULL))
 ```
-
 
 ## Assignment Operators
 
@@ -151,6 +160,7 @@ Y
 - `=` can be used instead of `<-`, but it isn't recommended!
 - `<<-` and `->>` should be avoided until you understand *environments*.
 - `assign()` can be useful within functions or loops.
+
 ```{r assign}
 assign(x = "ABCDE", 
        value = c("A", "B", "C", "D", "E"))
@@ -178,6 +188,7 @@ c(P - (Q / 3), (Q / P) - 3)
 ## Vectors
 
 R vectors come in a variety of types.  Here are some common types:
+
 ```{r vectors}
 c("A", "B", "C") # character
 c(0.1, 0.2, 0.3) # numeric
@@ -201,6 +212,7 @@ complex(
 - When you start using R, there are two objects, `T` and `F`, which have values `TRUE` and `FALSE`, respectively.
 - So, you may be tempted to just use `T` and `F` instead of `TRUE` and `FALSE` -- **DO NOT DO THIS!**
 - The values of `T` and `F` may be replaced ...
+
 ```{r}
 c(T, F)
 T <- FALSE
@@ -208,6 +220,7 @@ F <- TRUE
 ```
 
 ## TRUE and FALSE (continued)
+
 ```{r}
 T == FALSE
 F == TRUE
@@ -273,13 +286,13 @@ X * 2
 ```
 
 ## Vector Arithmetic with Vectors
+
 ```{r vectormath2}
 Y <- c(1, -2, 3, -4, 5)
 X + Y
 X * Y
 X %*% Y
 ```
-
 
 ## Outer Products
 
