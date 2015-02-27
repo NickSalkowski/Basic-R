@@ -1,0 +1,329 @@
+---
+title: "The Basics"
+author: "Nick Salkowski"
+date: "Thursday, February 26, 2015"
+output: ioslides_presentation
+---
+
+## The Introduction
+
+```{r, echo = FALSE}
+knitr::opts_knit$set(tidy = FALSE)
+```
+
+There are a lot of sources of information about R.  A useful place to start is **An Introduction to R**.
+
+<http://cran.r-project.org/doc/manuals/R-intro.pdf>
+
+## Case Sensitivity
+
+- R is case sensitive.
+
+    * So, `X` and `x` are not the same.
+    * Get used to it.
+    
+## Objects
+
+- R is object oriented.
+- So, you will work with different kinds of objects, not just data tables.
+- The most common objects are different kinds of vectors, matrices, arrays, lists, data.frames, and functions.
+    - Note that there are no scalars, only vectors of length 1.
+
+## Functions
+
+- Functions are usually called using a function name followed by parentheses.
+- Many (but not all) functions have arguments.  The arguments modify what the function does.
+- Functions often **return** some result.
+- e.g., `typeof()` is a function with one argument called `x`.
+    - `x` is an object
+    - `typeof` returns what **type** of object `x`
+- Nearly everthing that **does something** in R is a function, even if it doesn't always **look like** a function.
+
+## Data Types
+
+```{r}
+typeof(x = "A")
+typeof(x = 1.2)
+typeof(x = 1L)
+typeof(x = TRUE)
+```
+
+## Function Arguments
+
+- Some functions have more than one argument.
+    - You can provide the arguments in any order you want, if you use the argument names.
+    - You can omit the names, if you provide the arguments **in the order the function expects them!**
+- e.g., `rep.int()` is a function with two arguments, `x` and `times`.
+    - `x` is a vector.
+    - `times` is a vector indicating the number of times to replicate each element of `x`.
+    
+## Replication
+
+```{r}
+rep.int(x = 5.1, times = 3)
+rep.int(times = 3, x = 5.1)
+rep.int(5.1, 3)
+```
+
+## Getting Help
+
+The documentation for each function provides a desription of the function, including information about the arguments and what the function returns.
+
+There are lots of ways to access documentation ("help files"):
+
+```{r, eval = FALSE}
+?rep.int
+```
+```{r, eval = FALSE}
+help(rep.int)
+```
+
+You can also search the help for a particular string:
+
+```{r, eval = FALSE}
+??replicate
+```
+```{r, eval = FALSE}
+help.search("replicate")
+```
+
+## Is `?` a function?
+
+- `?` accesses documentation, so it certainly **does something**.
+- `?` **is** a function, but a function with an unusual syntax.
+- You **can** call `?` using the "normal" function syntax, too.  It takes more keystrokes, so the "normal" syntax is rarely used.
+
+```{r eval = FALSE}
+`?`(rep.int)
+```
+
+- Note the tick marks around the function name. Unusual function names need them.
+
+## Constructing Vectors
+
+- You can combine multiple values together into a vector using the `c()` function.
+
+```{r}
+c("A", "B", "C", "D")
+c(1.2, 3.4)
+c(TRUE, FALSE, TRUE)
+```
+
+## Vector Types
+
+- Most vectors can only contain a single type of data.  
+    - Character vectors can only contain character strings
+    - Numeric vectors can only contain double-precision numbers
+    - Integer vectors can only contain integers
+    - Logical vectors can only contain TRUE and FALSE
+
+## NA means "Missing"
+
+- `NA` is a special value that means "missing"
+- `is.na` is a function that tests whether values are missing
+
+```{r}
+c(1, 2, NA, 4)
+is.na(c(1, 2, NA, 4))
+```
+
+## NULL means "Nothing"
+- `NULL` is a special value that means "nothing"
+- `is.null()` to test whether a value is nonexistant
+
+```{r}
+c("A", "B", NULL, "D")
+is.null(c("A", "B", NULL, "D"))
+```
+
+## Assignment Operators
+
+To assign a name to an object, use an assignment operator:
+
+```{r}
+X <- 1.2
+3.4 -> Y
+c(X, Y)
+```
+
+- Assignment is a function, too.
+
+```{r}
+`<-`(XYZ, c("X", "Y", "Z"))
+XYZ
+```
+
+## More Assignment Operators
+
+- `=` can be used instead of `<-`, but using `=` can be confusing, since `=` is also used for function arguments.
+- `<<-` and `->>` should be avoided until you understand *environments*.
+- `assign()` can be useful within functions or loops.
+```{r assign}
+assign(x = "ABCDE", 
+       value = c("A", "B", "C", "D", "E"))
+ABCDE
+```
+
+## Constructing Matrices
+
+- You can turn a vector into a matrix using the `matrix` function.
+
+```{r}
+matrix(
+  data = c(1, 2, 3, 4, 5, 6),
+  nrow = 2)
+```
+
+- Note that the matrix was "filled" by columns. The `byrow` argument to `matrix` can be used to control this behavior.
+
+## Lists
+
+- Lists are special vectors whose elements can be different.
+    - Elements can be different data types.
+    - Elements can be complex objects, not just single values.
+- Lists are constructed using the `list()` function
+
+```{r}
+list("A", 1.2, TRUE)
+```
+
+## Complex List Elements
+
+```{r}
+list(c("A", "B"), c(1L, 2L, 3L), matrix(c(1.2, 3.4), nrow = 2))
+```
+
+## Naming List Elements
+
+```{r}
+list(AB = c("A", "B"), X = c(1L, 2L, 3L), 
+     mat = matrix(c(1.2, 3.4), nrow = 2))
+```
+
+## data.frames
+
+- A **data.frame** is a special kind of list, where all the elements of the list are vectors with the same length.  
+- Because the vectors all have the same length, a data.frame has rows and columns, like a matrix, but each column can have different kinds of data, like a list.
+- data.frames are constructed using the `data.frame()` function
+
+```{r}
+data.frame(ABC = c("A", "B", "C"), X = c(1L, 2L, 3L), 
+           TF = c(TRUE, FALSE, NA))
+```
+
+## Recycling Vectors
+
+- When you supply a vector that is too short, R often "recycles" its values to get a vector of the necessary length.
+
+```{r}
+matrix(data = c(1, 2, 3, 4, 5), nrow = 4, ncol = 5)
+```
+
+## Extracting Elements from Objects
+
+- R has several different ways to extract elements from objects.  
+- Not every technique works with every object!
+- So, familiarity with a variety of methods is important.
+    - Bracket Notation
+    - Double Bracket Notation
+    - Dollar Sign Notation
+    
+## Bracket Notation (1)
+
+- Bracket notation can use integer indices, element names, or logical values.
+- Positive integer indices indicate which elements to retain.
+
+```{r}
+ABCDE <- c("A", "B", "C", "D", "E")
+ABCDE[2]
+ABCDE[c(1, 3, 4)]
+```
+
+## Bracket Notation (2)
+
+- Positive integer indices can be repeated.
+```{r}
+ABCDE[c(1, 1, 3, 4, 3)]
+```
+
+- Negative indices indicate which elements to drop.
+```{r}
+ABCDE[c(-2, -4)]
+```
+
+## Bracket Notation (3)
+
+- Named elements can be extracted using character strings.
+
+```{r}
+Friends <- c(Ann = 1L, Bob = 2L, Cathy = 3L, Doug = 4L)
+Friends["Ann"]
+Friends[c("Bob", "Doug")]
+```
+
+## Bracket Notation (4)
+
+- A vector of logical values can be used for extraction.
+```{r}
+ABCDE <- c("A", "B", "C", "D", "E")
+ABCDE[c(TRUE, TRUE, FALSE, FALSE, TRUE)]
+```
+
+- Recycling!
+
+```{r}
+ABCDE <- c("A", "B", "C", "D", "E")
+ABCDE[c(TRUE, FALSE, TRUE)]
+```
+
+## Bracket Notation (5)
+
+- Matrices have two dimensions, so the bracket notation controls both rows and columns.
+- `LETTERS` and `letters` are character vectors of the upper- and lowercase letters of the alphabet.
+
+```{r}
+LETTERS12 <- matrix(LETTERS[1:12], nrow = 3)
+LETTERS12
+```
+
+- Note, `1:12` is R shorthand for an vector of integers from 1 to 12.
+
+## Bracket Notation (6)
+
+- Extract a row from a matrix:
+
+```{r}
+LETTERS12[3, ]
+```
+
+- Drop a row from a matrix:
+```{r}
+LETTERS12[-3, ]
+```
+
+## Bracket Notation (7)
+
+- Extract some columns from a matrix:
+
+```{r}
+LETTERS12[, c(2, 4)]
+```
+
+- Extract from both rows and columns:
+
+```{r}
+LETTERS12[3, c(2, 4)]
+```
+
+## Bracket Notation (8)
+
+- If the matrix has row or column names, character strings can be used, too.
+```{r}
+INT6 <- matrix(1:6, nrow = 2, 
+                   dimnames = list(c("AM", "PM"), 
+                                  c("Mon", "Tue", "Wed")))
+INT6
+INT6["AM", c("Mon", "Wed")]
+```
+
+
